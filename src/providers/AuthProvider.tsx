@@ -33,15 +33,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
-      }
+        }
       });
-      console.log(response)
 
       if (response.ok) {
         const userData = await response.json();
         setUser(userData.data);
-      } else {
+        
+        // Check for redirect path after successful authentication
+        const redirectPath = localStorage.getItem('redirectPath');
+        if (redirectPath) {
+          localStorage.removeItem('redirectPath');
+          window.location.href = redirectPath;
+        }
+      } else if (response.status === 401) {
         setUser(null);
+      } else {
+        throw new Error(`Authentication check failed: ${response.status}`);
       }
     } catch (err) {
       setError('Failed to check authentication status');
@@ -57,6 +65,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const login = () => {
+    const currentPath = window.location.pathname;
+    localStorage.setItem('redirectPath', currentPath);
+    
     window.location.href = `${backendUrl}/oauth2/authorization/google`;
   };
 

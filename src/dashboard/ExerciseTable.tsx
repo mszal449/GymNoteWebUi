@@ -1,46 +1,52 @@
-import { Table, Tooltip } from '@mantine/core'
+import { Table, Tooltip } from '@mantine/core';
 import React from 'react'
-import Template from '../models/Template';
+import { EExerciseType, Exercise } from '../models/Exercise';
 
-interface TemplateTableProps {
-    templates: Template[] | null;
+
+
+interface ExerciseTableProps {
+    exercises: Exercise[] | null;
 }
 
-const TemplateTable = ({templates} : TemplateTableProps) => {
+const ExerciseTable = ({exercises} : ExerciseTableProps) => {
   return (
     <div className='min-w-[400px]'>
         <Table striped highlightOnHover>
             <Table.Thead>
                 <Table.Tr>
+                <Table.Th>Id</Table.Th>
                 <Table.Th>Name</Table.Th>
                 <Table.Th>Description</Table.Th>
+                <Table.Th>Type</Table.Th>
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
-            {templates && templates.length > 0 ? (
+            {exercises && exercises.length > 0 ? (
                 <>
-                    {templates.map((template) => (
-                    <Table.Tr key={template.id} className='cursor-pointer' onClick={() => window.location.href = `/template/${template.id}`}>
+                    {exercises.map((exercise) => (
+                    <Table.Tr key={exercise.id} className='cursor-pointer'>
+                        <Table.Td>{exercise.id}</Table.Td>
                         <Table.Td>
-                            <Tooltip label={template.name} multiline>
+                            <Tooltip label={exercise.exerciseName} multiline>
                                 <div className="truncate max-w-[15rem]">
-                                    {template.name}
+                                    {exercise.exerciseName}
                                 </div>
                             </Tooltip>
                         </Table.Td>
                         <Table.Td>
-                            <Tooltip label={template.description} multiline>
+                            <Tooltip label={exercise.description} multiline>
                                 <div className="truncate max-w-[15rem]">
-                                    {template.description || "-"}
+                                    {exercise.description || "-"}
                                 </div>
                             </Tooltip>
                         </Table.Td>
+                        <Table.Td>{exercise.type || "-"}</Table.Td>
                     </Table.Tr>
                     ))} 
                 </> 
                 ) : (
                 <Table.Tr key={0}>
-                    <Table.Td colSpan={2} className='text-center'>No workouts found.</Table.Td>
+                    <Table.Td colSpan={3} className='text-center'>No exercises found.</Table.Td>
                 </Table.Tr>
                 )
             }
@@ -50,4 +56,4 @@ const TemplateTable = ({templates} : TemplateTableProps) => {
   )
 }
 
-export default TemplateTable
+export default ExerciseTable

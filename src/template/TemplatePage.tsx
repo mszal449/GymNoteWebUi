@@ -1,7 +1,7 @@
 import { Container, Skeleton, Tabs } from '@mantine/core';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import { fetchTemplateById } from '../service/TemplateService';
+import { getTemplateById } from '../service/TemplateService';
 import Template from '../models/Template';
 import { notifications } from '@mantine/notifications';
 import { TbBarbell } from "react-icons/tb";
@@ -18,7 +18,7 @@ const TemplatePage = () => {
         setIsLoading(true);
         try {
             if (id) {
-                const data = await fetchTemplateById(Number(id));
+                const data = await getTemplateById(Number(id));
                 setTemplate(data);
                 console.log(template)
             } else {

@@ -1,12 +1,8 @@
 import Template from "../models/Template";
+import { ApiResponse } from "../types";
 
-interface ApiResponse<T> {
-    data: T,
-    message?: string,
-    status: number
-}
 
-export const fetchTemplates = async (): Promise<Template[]> => {
+export const getTemplates = async (): Promise<Template[]> => {
     try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/template`, {
             method: "GET",
@@ -30,7 +26,7 @@ export const fetchTemplates = async (): Promise<Template[]> => {
     }
 };
 
-export const fetchTemplateById = async (id: number): Promise<Template> => {
+export const getTemplateById = async (id: number): Promise<Template> => {
     try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/template/${id}?includeExercises=true`, {
             method: "GET",
@@ -58,8 +54,8 @@ export const fetchTemplateById = async (id: number): Promise<Template> => {
 
 
 export const addTemplate = async (templateName: string, templateDescription: string): Promise<Template> => {
-    if (!templateName || !templateDescription) {
-        throw new Error("Template name and description are required");
+    if (!templateName) {
+        throw new Error("Template name is required");
     }
     try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/template`, {
