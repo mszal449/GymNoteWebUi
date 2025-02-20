@@ -3,7 +3,7 @@ import TemplateExercise from "./TemplateExercise";
 export default interface Template {
   id: number;
   userId: number;
-  templateName: string;
+  name: string;
   description: string;
   createdAt: string;
   templateExercises: TemplateExercise[];

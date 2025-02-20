@@ -7,7 +7,7 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute = ({ element }: PrivateRouteProps) => {
-  const { user, isLoading } = useAuth();
+  const { user, login, isLoading } = useAuth();
   const location = useLocation();
 
   if (isLoading) {
@@ -15,7 +15,7 @@ const PrivateRoute = ({ element }: PrivateRouteProps) => {
   }
 
   if (!user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    login();
   }
 
   return element;
