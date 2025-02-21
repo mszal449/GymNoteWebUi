@@ -4,12 +4,12 @@ import TemplateExercise from '../models/TemplateExercise';
 
 
 
-interface ExerciseTableProps {
+interface TemplateExerciseTableProps {
     exercises: TemplateExercise[] | null;
 }
 
 
-const ExerciseTable = ({exercises}: ExerciseTableProps) => {
+const TemplateExerciseTable = ({exercises}: TemplateExerciseTableProps) => {
   return (
     <div className='w-full'>
         <Table striped highlightOnHover>
@@ -45,4 +45,4 @@ const ExerciseTable = ({exercises}: ExerciseTableProps) => {
   )
 }
 
-export default ExerciseTable
+export default TemplateExerciseTable

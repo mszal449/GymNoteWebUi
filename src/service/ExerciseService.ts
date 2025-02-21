@@ -25,6 +25,7 @@ export const getExercises = async (): Promise<Exercise[]> => {
     }
 };
 
+// Retrieve users exercise by given id 
 export const getExerciseById = async (id: number): Promise<Exercise> => {
     try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/exercise/${id}`, {
@@ -52,6 +53,7 @@ export const getExerciseById = async (id: number): Promise<Exercise> => {
 };
 
 
+// Add new exercise to user profile
 export const addExercise = async (
         exerciseName: string, 
         exerciseDescription: string,
@@ -92,3 +94,13 @@ export const addExercise = async (
         throw e;
     }
 };
+
+// Create an exercise and add it to template using templateExercise
+export const AddNewExerciseToTemplate = (
+    exerciseName: string, 
+    exerciseDescription: string,
+    exerciseType: EExerciseType,
+    templateId: number
+) => {
+    
+}

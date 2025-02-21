@@ -1,3 +1,5 @@
+import { Exercise } from "./Exercise";
+
 export default interface TemplateExercise {
     id: number;
     templateId: number;
@@ -7,5 +9,6 @@ export default interface TemplateExercise {
     weight: number;
     rest: number;
     order: number;
+    exercise: Exercise;
   }
   

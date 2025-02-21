@@ -1,4 +1,4 @@
-import { Container, Skeleton, Tabs } from '@mantine/core';
+import { Button, Container, Skeleton, Tabs } from '@mantine/core';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { getTemplateById } from '../service/TemplateService';
@@ -6,7 +6,14 @@ import Template from '../models/Template';
 import { notifications } from '@mantine/notifications';
 import { TbBarbell } from "react-icons/tb";
 import { RiTimerFlashLine } from "react-icons/ri";
-import ExerciseTable from './ExerciseTable';
+import TemplateExerciseTable from './TemplateExerciseTable';
+import { useDisclosure } from '@mantine/hooks';
+
+import CreateExerciseModal, { ExerciseFormData } from '../dashboard/CreateExerciseModal';
+import AddExistingExerciseModal from './AddExistingExerciseModal';
+import { addExercise } from '../service/ExerciseService';
+import { Exercise } from '../models/Exercise';
+
 
 
 const TemplatePage = () => {
@@ -14,6 +21,47 @@ const TemplatePage = () => {
     const [template, setTemplate] = useState<Template | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
+    const [openedNewExercise, { open: openNewExercise, close: closeNewExercise }] = useDisclosure(false);
+    const [openedExisting, { open: openExisting, close: closeExisting }] = useDisclosure(false);
+
+
+    const handleCreateExercise = async (exerciseData: ExerciseFormData) => {
+        try {
+          setIsLoading(true);
+
+          // Create exercise
+          const exercise: Exercise = await addExercise(exerciseData.name, exerciseData.description, exerciseData.type);
+          
+          // Add exercise to template
+          
+
+          notifications.show({
+            title: 'Success',
+            message: 'Exercise created successfully',
+            color: 'green',
+            autoClose: 3000
+          });
+          
+          await loadTemplate();
+          closeExisting();
+        } catch (err) {
+          const errorMessage = err instanceof Error ? err.message : 'Failed to create exercise';
+          notifications.show({
+            title: 'Error',
+            message: errorMessage,
+            color: 'red',
+            autoClose: 3000
+          });
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+    const handleAddExistingExercise = async (exerciseId: number) => {
+        closeExisting();
+    };
+
+        
     const loadTemplate = async () => {
         setIsLoading(true);
         try {
@@ -67,8 +115,12 @@ const TemplatePage = () => {
                                     <span className='text-xl'>Workouts</span>
                                 </Tabs.Tab>
                             </Tabs.List>
-                            <Tabs.Panel value="exercises">
-                                <ExerciseTable exercises={null} />
+                            <Tabs.Panel value="exercises" className='mt-4'>
+                                <div className='flex gap-4'>
+                                    <Button onClick={openExisting}>Add existing exercise</Button>
+                                    <Button onClick={openNewExercise}>Add new exercise</Button>
+                                </div>
+                                <TemplateExerciseTable exercises={null} />
                             </Tabs.Panel>
 
                             <Tabs.Panel value="messages">
@@ -76,6 +128,19 @@ const TemplatePage = () => {
                             </Tabs.Panel>
 
                             </Tabs>
+                            <CreateExerciseModal
+                                opened={openedNewExercise}
+                                onClose={closeNewExercise}
+                                onSubmit={handleCreateExercise}
+                            />
+
+                            <AddExistingExerciseModal
+                                opened={openedExisting}
+                                onClose={closeExisting}
+                                onSubmit={handleAddExistingExercise}
+                                templateId={Number(id)}
+                            />
+
 
                         </div>
                     ) : (

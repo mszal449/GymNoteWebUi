@@ -33,8 +33,6 @@ const options = Object.values(EExerciseType).map((item) => (
     </Combobox.Option>
   ));
 
-
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
@@ -45,7 +43,7 @@ const options = Object.values(EExerciseType).map((item) => (
   return (
     <div>
       <Modal opened={opened} onClose={onClose} title="Create Exercise" centered>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <TextInput
             label="Exercise Name"
             placeholder="Enter name"
@@ -65,11 +63,12 @@ const options = Object.values(EExerciseType).map((item) => (
             onOptionSubmit={(val) => {
               setValue(val);
               setFormData({...formData, type: val as EExerciseType});
+              combobox.closeDropdown(); 
           }}
             >
             <Combobox.Target>
                 <InputBase
-                  label="Pick value or type anything"   
+                  label="Exercise type"   
                   component="button"
                   type="button"
                   pointer
@@ -85,9 +84,9 @@ const options = Object.values(EExerciseType).map((item) => (
                 <Combobox.Options>{options}</Combobox.Options>
             </Combobox.Dropdown>
             </Combobox>
-          <Button type="submit" mt="md">
-            Create Exercise
-          </Button>
+            <Button type="submit" mt="md">
+              Create Exercise
+            </Button>
         </form>
       </Modal>
     </div>
