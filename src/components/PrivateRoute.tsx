@@ -11,10 +11,8 @@ const PrivateRoute = ({ element }: PrivateRouteProps) => {
   const { user, login, isLoading } = useAuth();
   const location = useLocation();
 
-  // Store the attempted URL before redirecting to login
   useEffect(() => {
     if (!user && !isLoading) {
-      // Save the current path to localStorage
       localStorage.setItem('redirectPath', location.pathname);
     }
   }, [user, isLoading, location]);
