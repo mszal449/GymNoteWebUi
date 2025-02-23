@@ -12,13 +12,9 @@ interface TemplateExerciseTableProps {
 const exampleExercises: TemplateExercise[] = [
     {
         id: 1,
-        exerciseName: 'Bench Press',
         order: 1,
-        sets: 3,
-        reps: 10,
-        weight: 100,
-        rest: 60,
         templateId: 1,
+        createdAt: new Date('2023-01-01'),
         exercise: {
             id: 1,
             userId: 1,
@@ -30,13 +26,9 @@ const exampleExercises: TemplateExercise[] = [
     },
     {
         id: 2,
-        exerciseName: 'Squat',
         order: 2,
-        sets: 4,
-        reps: 8,
-        weight: 150,
-        rest: 90,
         templateId: 1,
+        createdAt: new Date('2023-01-02'),
         exercise: {
             id: 2,
             userId: 1,
@@ -48,13 +40,9 @@ const exampleExercises: TemplateExercise[] = [
     },
     {
         id: 3,
-        exerciseName: 'Deadlift',
         order: 3,
-        sets: 3,
-        reps: 5,
-        weight: 200,
-        rest: 120,
         templateId: 1,
+        createdAt: new Date('2023-01-03'),
         exercise: {
             id: 3,
             userId: 1,
@@ -75,10 +63,7 @@ const TemplateExerciseTable = ({exercises}: TemplateExerciseTableProps) => {
                 <Table.Tr>
                 <Table.Th>Name</Table.Th>
                 <Table.Th>Order</Table.Th>
-                <Table.Th>Sets</Table.Th>
-                <Table.Th>Reps</Table.Th>
-                <Table.Th>Weight</Table.Th>
-                <Table.Th>Rest</Table.Th>
+                <Table.Th>createdAt</Table.Th>
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
@@ -88,10 +73,7 @@ const TemplateExerciseTable = ({exercises}: TemplateExerciseTableProps) => {
                     <Table.Tr key={exercise.id}>
                         <Table.Td>{exercise.exercise.exerciseName}</Table.Td>
                         <Table.Td>{exercise.order}</Table.Td>
-                        <Table.Td>{exercise.sets}</Table.Td>
-                        <Table.Td>{exercise.reps}</Table.Td>
-                        <Table.Td>{exercise.weight}</Table.Td>
-                        <Table.Td>{exercise.rest}</Table.Td>
+                        <Table.Td>{exercise.createdAt.toLocaleDateString()}</Table.Td>
                     </Table.Tr>
                     ))} 
                 </> 
