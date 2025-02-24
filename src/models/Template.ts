@@ -6,5 +6,5 @@ export default interface Template {
   name: string;
   description: string;
   createdAt: string;
-  templateExercises: TemplateExercise[];
+  exercises: TemplateExercise[];
 }

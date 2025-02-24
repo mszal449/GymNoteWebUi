@@ -49,7 +49,7 @@ const Dashboard = () => {
           color: 'red',
           autoClose: 3000
         });
-        setTemplates([]);
+        setExercises([]);
     } finally {
         setIsLoading(false);
     }

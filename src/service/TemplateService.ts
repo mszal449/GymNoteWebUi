@@ -52,7 +52,6 @@ export const getTemplateById = async (id: number): Promise<Template> => {
     }
 };
 
-
 export const addTemplate = async (templateName: string, templateDescription: string): Promise<Template> => {
     if (!templateName) {
         throw new Error("Template name is required");

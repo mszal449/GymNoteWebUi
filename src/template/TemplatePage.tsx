@@ -13,6 +13,8 @@ import CreateExerciseModal, { ExerciseFormData } from '../dashboard/CreateExerci
 import AddExistingExerciseModal from './AddExistingExerciseModal';
 import { addExercise } from '../service/ExerciseService';
 import { Exercise } from '../models/Exercise';
+import { addExerciseToTemplate } from '../service/TemplateExerciseService';
+import TemplateExercise from '../models/TemplateExercise';
 
 
 
@@ -58,7 +60,38 @@ const TemplatePage = () => {
       };
 
     const handleAddExistingExercise = async (exerciseId: number) => {
-        closeExisting();
+        try {
+            setIsLoading(true);
+            // Get the current highest order index
+            const currentExercises = template?.exercises || [];
+            const nextOrder = currentExercises.length > 0 
+                ? Math.max(...currentExercises.map(e => e.order || 0)) + 1 
+                : 0; // Start from 0 instead of 1
+
+            await addExerciseToTemplate(Number(id), exerciseId, nextOrder);
+            
+            notifications.show({
+                title: 'Success',
+                message: 'Exercise added to template successfully',
+                color: 'green',
+                autoClose: 3000
+            });
+
+            await loadTemplate();
+        } catch (error) {
+            const errorMessage = error instanceof Error 
+                ? error.message 
+                : 'Failed to add exercise to template';
+            notifications.show({
+                title: 'Error',
+                message: errorMessage,
+                color: 'red',
+                autoClose: 3000
+            });
+        } finally {
+            setIsLoading(false);
+            closeExisting();
+        }
     };
 
         
@@ -67,14 +100,13 @@ const TemplatePage = () => {
         try {
             if (id) {
                 const data = await getTemplateById(Number(id));
+                console.log('Template data:', data); // Add debugging log
                 setTemplate(data);
-                console.log(template)
             } else {
                 throw new Error("Invalid template ID");
             }
         } catch (err) {
             notifications.show({
-              title: 'Error',
               message: "There was an error during data fetching. Please try again later.",
               color: 'red',
               autoClose: 3000
@@ -120,7 +152,7 @@ const TemplatePage = () => {
                                     <Button onClick={openExisting}>Add existing exercise</Button>
                                     <Button onClick={openNewExercise}>Add new exercise</Button>
                                 </div>
-                                <TemplateExerciseTable exercises={null} />
+                                <TemplateExerciseTable exercises={template.exercises} />
                             </Tabs.Panel>
 
                             <Tabs.Panel value="messages">
