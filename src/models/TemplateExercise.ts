@@ -4,7 +4,8 @@ export default interface TemplateExercise {
     id: number;
     templateId: number;
     order: number;
-    exerciseOrder: Exercise;
+    exerciseOrder: number;
+    exercise: Exercise
     createdAt: Date;
   }
   

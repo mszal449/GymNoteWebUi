@@ -64,10 +64,18 @@ const TemplatePage = () => {
             setIsLoading(true);
             // Get the current highest order index
             const currentExercises = template?.exercises || [];
-            const nextOrder = currentExercises.length > 0 
-                ? Math.max(...currentExercises.map(e => e.order || 0)) + 1 
-                : 0; // Start from 0 instead of 1
-
+            console.log('Current exercises:', currentExercises);
+            
+            let nextOrder;
+            if (currentExercises.length === 0) {
+                nextOrder = 0;
+            } else {
+                const orders = currentExercises.map(e => e.exerciseOrder || 0);
+                console.log('Current orders:', orders);
+                nextOrder = Math.max(...orders) + 1;
+            }
+            
+            console.log('Next order:', nextOrder);
             await addExerciseToTemplate(Number(id), exerciseId, nextOrder);
             
             notifications.show({
@@ -100,7 +108,7 @@ const TemplatePage = () => {
         try {
             if (id) {
                 const data = await getTemplateById(Number(id));
-                console.log('Template data:', data); // Add debugging log
+                console.log('Template data:', data);
                 setTemplate(data);
             } else {
                 throw new Error("Invalid template ID");

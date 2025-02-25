@@ -19,6 +19,7 @@ const TemplateExerciseTable = ({exercises}: TemplateExerciseTableProps) => {
                 <Table.Tr>
                     <Table.Th>Id</Table.Th>
                     <Table.Th>Name</Table.Th>
+                    <Table.Th>Description</Table.Th>
                     <Table.Th>Order</Table.Th>
                     <Table.Th>createdAt</Table.Th>
                 </Table.Tr>
@@ -29,7 +30,8 @@ const TemplateExerciseTable = ({exercises}: TemplateExerciseTableProps) => {
                     {exercises.sort((a, b) => (a.order || 0) - (b.order || 0)).map((exercise) => (
                     <Table.Tr key={exercise.id}>
                         <Table.Td>{exercise.id}</Table.Td>
-                        <Table.Td>{exercise.exercise?.exerciseName}</Table.Td>
+                        <Table.Td>{exercise.exercise.exerciseName}</Table.Td>
+                        <Table.Td>{exercise.exercise.description}</Table.Td>
                         <Table.Td>{exercise.exerciseOrder}</Table.Td>
                         <Table.Td>{new Date(exercise.createdAt).toLocaleDateString()}</Table.Td>
                     </Table.Tr>
