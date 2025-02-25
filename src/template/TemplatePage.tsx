@@ -8,6 +8,7 @@ import { TbBarbell } from "react-icons/tb";
 import { RiTimerFlashLine } from "react-icons/ri";
 import TemplateExerciseTable from './TemplateExerciseTable';
 import { useDisclosure } from '@mantine/hooks';
+import { IoArrowBack } from "react-icons/io5";
 
 import CreateExerciseModal, { ExerciseFormData } from '../dashboard/CreateExerciseModal';
 import AddExistingExerciseModal from './AddExistingExerciseModal';
@@ -133,7 +134,12 @@ const TemplatePage = () => {
                         </div>
                     ) : template ? (
                         <div>
-                            <h1 className="text-4xl mb-1">Template {template.name}</h1>
+                            <div className='flex items-center gap-4'>
+                                <a href="/dashboard">
+                                    <IoArrowBack size={24} />
+                                </a>
+                                <h1 className="text-4xl mb-1">Template {template.name}</h1>
+                            </div>
                             <div className='text-2xl text-gray-600'>{template.description}</div>
 
                             <Tabs defaultValue="exercises">
@@ -154,7 +160,7 @@ const TemplatePage = () => {
                             </Tabs.Panel>
 
                             <Tabs.Panel value="messages">
-                                Messages tab content
+                                a
                             </Tabs.Panel>
 
                             </Tabs>

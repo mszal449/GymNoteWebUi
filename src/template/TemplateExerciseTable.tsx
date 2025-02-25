@@ -36,7 +36,7 @@ const TemplateExerciseTable = ({exercises}: TemplateExerciseTableProps) => {
                 </> 
                 ) : (
                 <Table.Tr key={0}>
-                    <Table.Td colSpan={3} className='text-center'>No exercises found.</Table.Td>
+                    <Table.Td colSpan={4} className='text-center'>No exercises found.</Table.Td>
                 </Table.Tr>
                 )
             }
