@@ -14,7 +14,6 @@ import AddExistingExerciseModal from './AddExistingExerciseModal';
 import { addExercise } from '../service/ExerciseService';
 import { Exercise } from '../models/Exercise';
 import { addExerciseToTemplate } from '../service/TemplateExerciseService';
-import TemplateExercise from '../models/TemplateExercise';
 
 
 
@@ -34,17 +33,9 @@ const TemplatePage = () => {
           // Create exercise
           const exercise: Exercise = await addExercise(exerciseData.name, exerciseData.description, exerciseData.type);
           
-          // Add exercise to template
-          
+          // add exercise to template
+          await handleAddExistingExercise(exercise.id);
 
-          notifications.show({
-            title: 'Success',
-            message: 'Exercise created successfully',
-            color: 'green',
-            autoClose: 3000
-          });
-          
-          await loadTemplate();
           closeExisting();
         } catch (err) {
           const errorMessage = err instanceof Error ? err.message : 'Failed to create exercise';
@@ -108,7 +99,6 @@ const TemplatePage = () => {
         try {
             if (id) {
                 const data = await getTemplateById(Number(id));
-                console.log('Template data:', data);
                 setTemplate(data);
             } else {
                 throw new Error("Invalid template ID");

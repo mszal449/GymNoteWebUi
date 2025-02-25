@@ -1,7 +1,6 @@
 import React from 'react'
 import { Table } from '@mantine/core'
 import TemplateExercise from '../models/TemplateExercise';
-import { EExerciseType } from '../models/Exercise';
 
 
 
@@ -21,7 +20,6 @@ const TemplateExerciseTable = ({exercises}: TemplateExerciseTableProps) => {
                     <Table.Th>Name</Table.Th>
                     <Table.Th>Description</Table.Th>
                     <Table.Th>Order</Table.Th>
-                    <Table.Th>createdAt</Table.Th>
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
@@ -33,7 +31,6 @@ const TemplateExerciseTable = ({exercises}: TemplateExerciseTableProps) => {
                         <Table.Td>{exercise.exercise.exerciseName}</Table.Td>
                         <Table.Td>{exercise.exercise.description}</Table.Td>
                         <Table.Td>{exercise.exerciseOrder}</Table.Td>
-                        <Table.Td>{new Date(exercise.createdAt).toLocaleDateString()}</Table.Td>
                     </Table.Tr>
                     ))} 
                 </> 
