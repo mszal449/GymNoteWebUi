@@ -15,6 +15,8 @@ import AddExistingExerciseModal from './AddExistingExerciseModal';
 import { addExercise } from '../service/ExerciseService';
 import { Exercise } from '../models/Exercise';
 import { addExerciseToTemplate } from '../service/TemplateExerciseService';
+import WorkoutsTable from './WorkoutsTable';
+import { startWorkout } from '../service/WorkoutService';
 
 
 
@@ -22,6 +24,7 @@ const TemplatePage = () => {
     const { id } = useParams<{ id: string }>();
     const [template, setTemplate] = useState<Template | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [activeTab, setActiveTab] = useState<string | null>("exercises");
 
     const [openedNewExercise, { open: openNewExercise, close: closeNewExercise }] = useDisclosure(false);
     const [openedExisting, { open: openExisting, close: closeExisting }] = useDisclosure(false);
@@ -49,7 +52,7 @@ const TemplatePage = () => {
         } finally {
           setIsLoading(false);
         }
-      };
+    };
 
     const handleAddExistingExercise = async (exerciseId: number) => {
         try {
@@ -94,7 +97,6 @@ const TemplatePage = () => {
         }
     };
 
-        
     const loadTemplate = async () => {
         setIsLoading(true);
         try {
@@ -115,7 +117,35 @@ const TemplatePage = () => {
             setIsLoading(false);
         }
     };
+    
+    const handleStartWorkout = async () => {
+        try {
+            setIsLoading(true);
+            if (!template) return;
+            
+            await startWorkout(template.id);
+            // Switch to workouts tab after starting
+            setActiveTab("workouts");
+            notifications.show({
+                title: 'Success',
+                message: 'Workout started successfully',
+                color: 'green',
+                autoClose: 3000
+            });
+            
+        } catch (error) {
+            notifications.show({
+                title: 'Error',
+                message: 'Failed to start workout',
+                color: 'red',
+                autoClose: 3000
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
+    
     useEffect(()=>{
         loadTemplate();
     }, [])
@@ -142,12 +172,12 @@ const TemplatePage = () => {
                             </div>
                             <div className='text-2xl text-gray-600'>{template.description}</div>
 
-                            <Tabs defaultValue="exercises">
+                            <Tabs value={activeTab} onChange={setActiveTab}>
                             <Tabs.List>
                                 <Tabs.Tab value="exercises" leftSection={<TbBarbell size={20} />}>
                                     <span className='text-xl'>Exercises</span>
                                 </Tabs.Tab>
-                                <Tabs.Tab value="messages" leftSection={<RiTimerFlashLine size={20}/>}>
+                                <Tabs.Tab value="workouts" leftSection={<RiTimerFlashLine size={20}/>}>
                                     <span className='text-xl'>Workouts</span>
                                 </Tabs.Tab>
                             </Tabs.List>
@@ -159,8 +189,9 @@ const TemplatePage = () => {
                                 <TemplateExerciseTable exercises={template.exercises} />
                             </Tabs.Panel>
 
-                            <Tabs.Panel value="messages">
-                                a
+                            <Tabs.Panel value="workouts" className='mt-2'>
+                                <Button className='my-2' onClick={handleStartWorkout}>Start Workout</Button>
+                                <WorkoutsTable templateId={template.id}  />
                             </Tabs.Panel>
 
                             </Tabs>
