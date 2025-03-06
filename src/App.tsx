@@ -13,6 +13,7 @@ import './index.css'
 import { Notifications } from "@mantine/notifications";
 import '@mantine/notifications/styles.css';
 import TemplatePage from "./template/TemplatePage";
+import WorkoutPage from "./workout/WorkoutPage";
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
             <Route path="/success" element={<PrivateRoute element={<Success/>}/>  } />
             <Route path="/dashboard" element={<PrivateRoute element={<Dashboard/>}/>  } />
             <Route path="/template/:id" element={<PrivateRoute element={<TemplatePage/>}/>  } />
+            <Route path="/workouts/:id" element={<PrivateRoute element={<WorkoutPage/>}/>  } />
             <Route path="/" element={<Home />} />
             </Routes>
         </BrowserRouter>

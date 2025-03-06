@@ -39,7 +39,10 @@ const WorkoutsTable: React.FC<WorkoutsTableProps> = ({ templateId }) => {
                 <Table.Tbody>
                 {workouts.length > 0 ? (
                     workouts.map((workout) => (
-                        <Table.Tr key={workout.id}>
+                        <Table.Tr key={workout.id}
+                        className="hover:bg-gray-100 cursor-pointer"
+                        onClick={() => window.location.href = `/workouts/${workout.id}`}
+                        >
                             <Table.Td>{workout.id}</Table.Td>
                             <Table.Td>{workout.name}</Table.Td>
                             <Table.Td>{new Date(workout.startTime).toLocaleString()}</Table.Td>

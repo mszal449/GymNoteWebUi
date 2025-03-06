@@ -48,3 +48,48 @@ export const startWorkout = async (templateId: number): Promise<Workout> => {
         throw error;
     }
 };
+
+export const getWorkoutById = async (workoutId: number): Promise<Workout> => {
+    try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/workout/${workoutId}`, {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${data.message}`);
+        }
+
+        const apiResponse: ApiResponse<Workout> = data;
+        return apiResponse.data;
+    } catch (error) {
+        console.error('Error fetching workout:', error);
+        throw error;
+    }
+};
+
+export const endWorkout = async (workoutId: number): Promise<Workout> => {
+    try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/workout/end/${workoutId}`, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(`HTTP error! status: ${data.message}`);
+
+        const apiResponse: ApiResponse<Workout> = data;
+        return apiResponse.data;
+    } catch (error) {
+        console.error('Error ending workout:', error);
+        throw error;
+    }
+};

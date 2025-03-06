@@ -25,7 +25,7 @@ const PrivateRoute = ({ element }: PrivateRouteProps) => {
     );
   }
 
-  if (!user) {
+  if (!user && !isLoading) {
     login();
     return null;
   }

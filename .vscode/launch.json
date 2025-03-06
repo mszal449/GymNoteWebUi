@@ -1,0 +1,27 @@
+{
+    "configurations": [
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Launch Vite App",
+        "program": "${workspaceFolder}/${input:programPath}",
+        "preLaunchTask": "build",
+        "runtimeExecutable": "npm",
+        "runtimeArgs": ["run dev"],
+        "cwd": "${workspaceFolder}",
+        "envFile": "${workspaceFolder}/.env",
+        "sourceMaps": true,
+        "outFiles": ["${workspaceFolder}/dist/**/*.js"]
+      }
+    ],
+    "inputs": [
+      {
+        "type": "pickString",
+        "id": "programPath",
+        "description": "Select the entry point for your application",
+        "options": [
+          "src/App.tsx"
+        ]
+      }
+    ]
+  }
